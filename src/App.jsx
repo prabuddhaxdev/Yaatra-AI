@@ -8,7 +8,7 @@ function App() {
       <h2>AI Trip Planner</h2>
       <Button>Subscribe</Button>
     </>
-  )
+  );
 }
 
 export default App
