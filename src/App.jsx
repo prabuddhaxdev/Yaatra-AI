@@ -1,12 +1,12 @@
 import './App.css'
-import { Button } from './components/ui/button'
+import Hero from './components/custom/Hero';
 
 function App() {
 
   return (
     <>
-      <h2>AI Trip Planner</h2>
-      <Button>Subscribe</Button>
+      <Hero/>
+
     </>
   );
 }
