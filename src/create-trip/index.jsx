@@ -1,5 +1,6 @@
-import React from 'react'
-import ReactGoogleAutocomplete from 'react-google-autocomplete'
+import React, { useState } from 'react'
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+
 
 function CreateTrip() {
   const [place,setPlace] = useState();
@@ -16,9 +17,9 @@ function CreateTrip() {
           <h2 className="text-xl my-3 font-medium">
             What is the destination of your choice
           </h2>
-          <ReactGoogleAutocomplete
+          <GooglePlacesAutocomplete
             apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY}
-            selectProps={{place, onChange:(v)=>{setPlace(v)}}}
+            selectProps={{place, onChange:(v)=>{setPlace(v);console.log(v)}}}
           />
         </div>
       </div>
