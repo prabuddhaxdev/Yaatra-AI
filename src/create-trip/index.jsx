@@ -1,33 +1,53 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SelectBudgetOptions, SelectTravelList } from "@/constants/options";
-import React, {useEffect, useState } from "react";
+import {
+  AI_PROMPT,
+  SelectBudgetOptions,
+  SelectTravelList,
+} from "@/constants/options";
+import { generatePlanFromAI } from "@/service/AIModal";
+import React, { useEffect, useState } from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { toast } from "sonner";
 
 function CreateTrip() {
   const [place, setPlace] = useState();
-  const [formData,setFormData] = useState([]);
-  const handleInputChange = (name,value)=>{
-  setFormData({
+  const [formData, setFormData] = useState([]);
+  const handleInputChange = (name, value) => {
+    setFormData({
       ...formData,
-      [name]:value
-    })
-  }
+      [name]: value,
+    });
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(formData);
-  },[formData])
+  }, [formData]);
 
-
-  const OnGenerateTrip=()=>{
-    if(formData?.noOfDays>30&&!formData?.location||!formData?.budget||!formData?.traveler){
-      toast("Please fill all details")
-      return ;
+  const OnGenerateTrip = async () => {
+    if ((formData?.noOfDays > 30 && !formData?.location) || !formData?.budget ||!formData?.traveler) {
+      toast("Please fill all details");
+      return;
     }
-    console.log(formData);
-  }
+//
+    const FINAL_PROMPT = AI_PROMPT
+      .replace("{location}",formData?.location?.label)
+      .replace("{totalDays}", formData?.noOfDays)
+      .replace("{traveler}", formData?.traveler)
+      .replace("{budget}", formData?.budget)
+      .replace("{totalDays}", formData?.noOfDays);
 
+    console.log("Prompt sent to Gemini:", FINAL_PROMPT);
+
+    try {
+      const text = await generatePlanFromAI(FINAL_PROMPT);
+      console.log("Gemini Response:", text); // <- This should show up
+    } catch (err) {
+      console.error("Error calling Gemini:", err);
+    }
+  };
+
+//
   return (
     <div className="sm:px-10 md:px-32 lg:px-56 xl:px-10 px-5 mt-10">
       <h2 className="font-bold text-3xl">Tell us your travel preferences.🏕️</h2>
