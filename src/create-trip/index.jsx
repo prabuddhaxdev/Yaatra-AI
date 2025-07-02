@@ -31,17 +31,16 @@ function CreateTrip() {
     }
 //
     const FINAL_PROMPT = AI_PROMPT
-      .replace("{location}",formData?.location?.label)
-      .replace("{totalDays}", formData?.noOfDays)
-      .replace("{traveler}", formData?.traveler)
-      .replace("{budget}", formData?.budget)
-      .replace("{totalDays}", formData?.noOfDays);
+      .replaceAll("{location}",formData?.location?.label)
+      .replaceAll("{totalDays}", formData?.noOfDays)
+      .replaceAll("{traveler}", formData?.traveler)
+      .replaceAll("{budget}", formData?.budget)
 
     console.log("Prompt sent to Gemini:", FINAL_PROMPT);
 
     try {
       const text = await generatePlanFromAI(FINAL_PROMPT);
-      console.log("Gemini Response:", text); // <- This should show up
+      console.log("Gemini Response:", text);
     } catch (err) {
       console.error("Error calling Gemini:", err);
     }
